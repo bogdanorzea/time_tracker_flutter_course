@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'sign_in_button.dart';
@@ -59,13 +60,22 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               color: Colors.lime[300],
-              onPressed: () {},
-              text: 'Sign in with Google',
+              onPressed: _signInAnonymously,
+              text: 'Sign in anonymously',
               textColor: Colors.black87,
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _signInAnonymously() async {
+    try {
+      final userCredentials = await FirebaseAuth.instance.signInAnonymously();
+      print(userCredentials.user.uid);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

@@ -1,4 +1,4 @@
-package com.codingwithflutter.time_tracker_flutter_course
+package com.bogdanorzea.time_tracker_flutter_course
 
 import io.flutter.embedding.android.FlutterActivity
 
