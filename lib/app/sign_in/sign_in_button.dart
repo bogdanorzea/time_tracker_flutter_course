@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../common_widgets/custom_raised_button.dart';
+import '../../common_widgets/custom_raised_button.dart';
 
 class SignInButton extends CustomRaisedButton {
   SignInButton({
