@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 import '../services/auth.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    Key key,
-    @required this.auth,
-    @required this.onSignOut,
-  }) : super(key: key);
+  const HomePage({Key key, @required this.auth}) : super(key: key);
 
-  final VoidCallback onSignOut;
   final AuthBase auth;
 
   @override
@@ -33,7 +28,6 @@ class HomePage extends StatelessWidget {
   void _signOut() async {
     try {
       await auth.signOut();
-      onSignOut();
     } catch (e) {
       print(e.toString());
     }
