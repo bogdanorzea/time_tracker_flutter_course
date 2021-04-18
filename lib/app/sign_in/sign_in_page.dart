@@ -34,7 +34,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               assetName: 'images/google-logo.png',
               color: Colors.white,
-              onPressed: () {},
+              onPressed: _signInWithGoogle,
               text: 'Sign in with Google',
               textColor: Colors.black87,
             ),
@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               assetName: 'images/facebook-logo.png',
               color: Color(0xFF334D92),
-              onPressed: () {},
+              onPressed: _signInWithFacebook,
               text: 'Sign in with Facebook',
               textColor: Colors.white,
             ),
@@ -75,6 +75,22 @@ class SignInPage extends StatelessWidget {
   void _signInAnonymously() async {
     try {
       await auth.signInAnonymously();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
