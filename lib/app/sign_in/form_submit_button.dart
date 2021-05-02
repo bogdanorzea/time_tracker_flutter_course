@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_raised_button.dart';
 
-class SignInButton extends CustomRaisedButton {
-  SignInButton({
+class FormSubmitButton extends CustomRaisedButton {
+  FormSubmitButton({
     @required String text,
-    Color color,
-    Color textColor,
     VoidCallback onPressed,
   })  : assert(text != null),
         super(
-          child: Text(text, style: TextStyle(fontSize: 16.0, color: textColor)),
-          color: color,
+          borderRadius: 4.0,
+          child: Text(text, style: TextStyle(fontSize: 16.0, color: Colors.white)),
+          color: Colors.indigo,
+          height: 44.0,
           onPressed: onPressed,
         );
 }

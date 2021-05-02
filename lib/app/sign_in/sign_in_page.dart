@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/auth.dart';
+import 'email_sign_in_page.dart';
 import 'sign_in_button.dart';
 import 'social_sign_in_button.dart';
 
@@ -49,7 +50,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               color: Colors.teal[700],
-              onPressed: () {},
+              onPressed: () => _signInWithEmail(context),
               text: 'Sign in with e-mail',
               textColor: Colors.white,
             ),
@@ -68,6 +69,15 @@ class SignInPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _signInWithEmail(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => EmailSignInPage(auth: auth),
       ),
     );
   }
