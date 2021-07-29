@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
-import '../../services/auth.dart';
 import 'email_sign_in_page.dart';
 import 'sign_in_button.dart';
 import 'social_sign_in_button.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key key, @required this.auth}) : super(key: key);
-
-  final AuthBase auth;
+  const SignInPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               assetName: 'images/google-logo.png',
               color: Colors.white,
-              onPressed: _signInWithGoogle,
+              onPressed: () => _signInWithGoogle(context),
               text: 'Sign in with Google',
               textColor: Colors.black87,
             ),
@@ -43,7 +41,7 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               assetName: 'images/facebook-logo.png',
               color: Color(0xFF334D92),
-              onPressed: _signInWithFacebook,
+              onPressed: () => _signInWithFacebook(context),
               text: 'Sign in with Facebook',
               textColor: Colors.white,
             ),
@@ -63,7 +61,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               color: Colors.lime[300],
-              onPressed: _signInAnonymously,
+              onPressed: () => _signInAnonymously(context),
               text: 'Sign in anonymously',
               textColor: Colors.black87,
             ),
@@ -77,29 +75,32 @@ class SignInPage extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (_) => EmailSignInPage(auth: auth),
+        builder: (_) => EmailSignInPage(),
       ),
     );
   }
 
-  void _signInAnonymously() async {
+  void _signInAnonymously(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInAnonymously();
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void _signInWithGoogle() async {
+  void _signInWithGoogle(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInWithGoogle();
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void _signInWithFacebook() async {
+  void _signInWithFacebook(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
