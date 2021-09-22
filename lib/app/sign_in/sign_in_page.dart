@@ -1,13 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 import 'email_sign_in_page.dart';
 import 'sign_in_button.dart';
 import 'social_sign_in_button.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({Key key}) : super(key: key);
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +31,24 @@ class SignInPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              "Sign In",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32.0,
-                fontWeight: FontWeight.w600,
-              ),
+            SizedBox(
+              height: 48,
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Text(
+                      "Sign In",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
             ),
             SizedBox(height: 48),
             SocialSignInButton(
               assetName: 'images/google-logo.png',
               color: Colors.white,
-              onPressed: () => _signInWithGoogle(context),
+              onPressed: _isLoading ? null : () => _signInWithGoogle(context),
               text: 'Sign in with Google',
               textColor: Colors.black87,
             ),
@@ -42,14 +56,14 @@ class SignInPage extends StatelessWidget {
             SocialSignInButton(
               assetName: 'images/facebook-logo.png',
               color: Color(0xFF334D92),
-              onPressed: () => _signInWithFacebook(context),
+              onPressed: _isLoading ? null : () => _signInWithFacebook(context),
               text: 'Sign in with Facebook',
               textColor: Colors.white,
             ),
             SizedBox(height: 8),
             SignInButton(
               color: Colors.teal[700],
-              onPressed: () => _signInWithEmail(context),
+              onPressed: _isLoading ? null : () => _signInWithEmail(context),
               text: 'Sign in with e-mail',
               textColor: Colors.white,
             ),
@@ -62,7 +76,7 @@ class SignInPage extends StatelessWidget {
             SizedBox(height: 8),
             SignInButton(
               color: Colors.lime[300],
-              onPressed: () => _signInAnonymously(context),
+              onPressed: _isLoading ? null : () => _signInAnonymously(context),
               text: 'Sign in anonymously',
               textColor: Colors.black87,
             ),
@@ -81,30 +95,55 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  void _showSignInError(BuildContext context, Exception exception) {
+    if (exception is FirebaseException &&
+        exception.code == 'ERROR_ABORTED_BY_USER') {
+      return;
+    }
+
+    showExceptionAlertDialog(
+      context,
+      title: 'Sign in failed',
+      exception: exception,
+    );
+  }
+
   void _signInAnonymously(BuildContext context) async {
     try {
+      _startLoading();
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInAnonymously();
-    } catch (e) {
-      print(e.toString());
+    } on Exception catch (e) {
+      _showSignInError(context, e);
+    } finally {
+      _finishLoading();
     }
   }
 
   void _signInWithGoogle(BuildContext context) async {
     try {
+      _startLoading();
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
-    } catch (e) {
-      print(e.toString());
+    } on Exception catch (e) {
+      _showSignInError(context, e);
+    } finally {
+      _finishLoading();
     }
   }
 
   void _signInWithFacebook(BuildContext context) async {
     try {
+      _startLoading();
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
-    } catch (e) {
-      print(e.toString());
+    } on Exception catch (e) {
+      _showSignInError(context, e);
+    } finally {
+      _finishLoading();
     }
   }
+
+  void _startLoading() => setState(() => _isLoading = true);
+  void _finishLoading() => setState(() => _isLoading = false);
 }

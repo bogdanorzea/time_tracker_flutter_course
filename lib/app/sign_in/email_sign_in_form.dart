@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 import 'form_submit_button.dart';
@@ -118,12 +119,11 @@ class _EmailSignInFormState extends State<EmailSignInForm>
       }
 
       Navigator.of(context).pop();
-    } catch (e) {
-      showAlertDialog(
+    } on FirebaseAuthException catch (e) {
+      showExceptionAlertDialog(
         context,
-        title: 'Sign-in failed',
-        content: e.toString(),
-        defaultActionText: 'OK',
+        title: 'Sign in failed',
+        exception: e,
       );
     } finally {
       setState(() {
@@ -145,5 +145,16 @@ class _EmailSignInFormState extends State<EmailSignInForm>
       _emailController.clear();
       _passwordController.clear();
     });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+
+    super.dispose();
   }
 }
