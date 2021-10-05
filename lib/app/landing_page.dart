@@ -17,7 +17,7 @@ class LandingPage extends StatelessWidget {
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return snapshot.hasData ? HomePage() : SignInPage();
+          return snapshot.hasData ? HomePage() : SignInPage.create(context);
         }
 
         return Scaffold(body: Center(child: CircularProgressIndicator()));
