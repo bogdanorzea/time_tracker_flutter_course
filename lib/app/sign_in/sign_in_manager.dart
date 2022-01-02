@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class SignInManager {
