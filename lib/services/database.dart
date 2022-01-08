@@ -5,6 +5,7 @@ import 'package:time_tracker_flutter_course/services/firestore_service.dart';
 
 abstract class Database {
   Future<void> setJob(Job job);
+  Future<void> deleteJob(Job job);
   Stream<List<Job>> jobsStream();
 }
 
@@ -16,11 +17,18 @@ class FirestoreDatabase implements Database {
 
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
 
+  @override
   Future<void> setJob(Job job) => _service.setData(
         path: ApiPath.job(uid, job.id),
         data: job.toMap(),
       );
 
+  @override
+  Future<void> deleteJob(Job job) async => _service.deleteData(
+        path: ApiPath.job(uid, job.id),
+      );
+
+  @override
   Stream<List<Job>> jobsStream() => _service.collectionStream(
         path: ApiPath.jobs(uid),
         builder: (data, docId) => Job.fromMap(data, docId),
