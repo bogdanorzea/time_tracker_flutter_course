@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/home/job_entries/entry_list_item.dart';
@@ -20,7 +21,7 @@ class JobEntriesPage extends StatelessWidget {
   static Future<void> show(BuildContext context, Job job) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         fullscreenDialog: false,
         builder: (context) => JobEntriesPage(database: database, job: job),
       ),
@@ -51,11 +52,16 @@ class JobEntriesPage extends StatelessWidget {
               elevation: 2.0,
               title: Text(job?.name ?? ''),
               actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                IconButton(
+                  onPressed: () => EntryPage.show(
+                    context: context,
+                    database: database,
+                    job: job,
                   ),
+                  icon: Icon(Icons.add),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit),
                   onPressed: () => EditJobPage.show(
                     context,
                     job: job,
@@ -85,14 +91,6 @@ class JobEntriesPage extends StatelessWidget {
                   },
                 );
               },
-            ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => EntryPage.show(
-                context: context,
-                database: database,
-                job: job,
-              ),
             ),
           );
         });
