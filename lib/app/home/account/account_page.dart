@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker_flutter_course/common_widgets/avatar.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
@@ -8,6 +9,9 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final account = auth.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Accounts'),
@@ -20,6 +24,22 @@ class AccountPage extends StatelessWidget {
             ),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(130),
+          child: Column(
+            children: [
+              Avatar(photoUrl: account.photoURL, radius: 50),
+              SizedBox(height: 8),
+              if (account.displayName != null) ...[
+                Text(
+                  account.displayName,
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 8),
+              ]
+            ],
+          ),
+        ),
       ),
       body: Container(),
     );

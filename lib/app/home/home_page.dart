@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/app/home/account/account_page.dart';
 import 'package:time_tracker_flutter_course/app/home/cupertino_home_scaffold.dart';
 import 'package:time_tracker_flutter_course/app/home/entries/entries_page.dart';
-import 'package:time_tracker_flutter_course/app/home/job_entries/job_entries_page.dart';
 import 'package:time_tracker_flutter_course/app/home/jobs/jobs_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
 
