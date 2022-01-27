@@ -10,6 +10,8 @@ import 'sign_in_button.dart';
 import 'social_sign_in_button.dart';
 
 class SignInPage extends StatelessWidget {
+  static const Key emailPasswordKey = Key('email-password');
+
   final SignInManager manager;
 
   const SignInPage({Key key, @required this.manager}) : super(key: key);
@@ -73,6 +75,7 @@ class SignInPage extends StatelessWidget {
             ),
             SizedBox(height: 8),
             SignInButton(
+              key: emailPasswordKey,
               color: Colors.teal[700],
               onPressed: isLoading ? null : () => _signInWithEmail(context),
               text: 'Sign in with e-mail',

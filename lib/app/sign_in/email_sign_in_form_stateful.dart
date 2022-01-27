@@ -9,10 +9,13 @@ import 'form_submit_button.dart';
 import 'validators.dart';
 
 class EmailSignInFormStateful extends StatefulWidget {
-  const EmailSignInFormStateful({Key key}) : super(key: key);
+  final VoidCallback onSignedIn;
+
+  const EmailSignInFormStateful({Key key, this.onSignedIn}) : super(key: key);
 
   @override
-  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
+  _EmailSignInFormStatefulState createState() =>
+      _EmailSignInFormStatefulState();
 }
 
 class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful>
@@ -51,6 +54,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextField(
+            key: Key('email'),
             autocorrect: false,
             controller: _emailController,
             decoration: InputDecoration(
@@ -71,6 +75,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful>
           ),
           SizedBox(height: 8),
           TextField(
+            key: Key('password'),
             autocorrect: false,
             controller: _passwordController,
             obscureText: true,
@@ -106,8 +111,6 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful>
       _isLoading = true;
     });
 
-    await Future.delayed(Duration(seconds: 3));
-
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
 
@@ -117,7 +120,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful>
         await auth.createUserWithEmailAndPassword(_email, _password);
       }
 
-      Navigator.of(context).pop();
+      widget.onSignedIn?.call();
     } on FirebaseAuthException catch (e) {
       showExceptionAlertDialog(
         context,

@@ -47,7 +47,7 @@ class _EditJobPageState extends State<EditJobPage> {
         elevation: 2,
         title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: _onSave,
             child: Text(
               'Save',
